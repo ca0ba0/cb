@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" /> 
+        <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery/jquery-1.4.min.js"></script>   
+        <script src="http://crm.daohangma.com/zuopin/lm17/caobao/wenjian/cssrem/rem.js"></script>
+    </head>
+    <style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    .head{
+        width: 16rem;
+        height: 4.75rem;
+        background-color:rgb(177,7,6);
+    }
+    .img0{
+        width: 4.6rem;
+        height: 1.3rem;
+        position: absolute;
+        left: 5.68rem;
+        top: 0.4rem;
+    }
+    p{
+        font-size: 0.65rem;
+        position: absolute;
+        top:2rem;
+        left: 5.1rem;
+        color:ghostwhite;
+    }
+    .text{
+        width: 11.5rem;
+        height: 1.5rem;
+        font-size: 0.75rem;
+    }
+    .btn{
+        width:2.05rem;
+        height: 1.4rem;
+        font-size: 0.75rem; 
+    }
+    .ipt{
+        position: absolute;
+        top: 2.9rem;
+        left:1rem;
+    }
+    .img li{
+        float: left;
+        list-style: none;
+        width: 16rem;
+        height: 9.5rem;
+        position: absolute;
+    }
+    .img img{
+        width: 16rem;
+        height: 9.5rem;
+    }
+    .nav{
+        position: absolute;
+    }
+    .radio li{
+        float: left;
+        list-style: none;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 0.25rem;
+        background-color:brown;
+        margin: 0.3rem;
+    }
+    .radio{
+        width: 8rem;
+        position: absolute;
+        top: 9.4rem;
+        left: 5.8rem;
+    }
+    </style>
+    <body>
+    <div class="head">
+        <img class="img0" src="http://crm.daohangma.com/zuopin/lm17/caobao/wenjian/gwk.png" alt="">
+        <p>正品搜索，放心选购</p>
+        <div class="ipt">    
+        <input type="text" name="" value="中国购物搜索导航第一站" class="text">
+        <input type="button" name="" value="搜索" class="btn">
+        </div>
+    </div>
+    <div class="nav">
+        <ul class="img">
+            <li><img style="z-index: 4" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487746328748&di=4562daf8b9df1066238543e8326f8656&imgtype=0&src=http%3A%2F%2Fpic.58pic.com%2F58pic%2F13%2F20%2F85%2F49z58PICZXE_1024.jpg" alt=""></li>
+            <li><img style="z-index: 3" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487746328857&di=fb753c8f966a9833e251653e0d4f4800&imgtype=0&src=http%3A%2F%2Fwww.jitu5.com%2Fuploads%2Fallimg%2F130908%2F259957-130ZQ6191755.jpg" alt=""></li>
+            <li><img style="z-index: 2" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487746328833&di=cc3134c1112a649d4b98d834d3c0f153&imgtype=0&src=http%3A%2F%2Fimg01.taopic.com%2F160218%2F235099-16021Q55T125.jpg" alt=""></li>
+            <li><img style="z-index: 1" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487746328837&di=2a51736749b007e948a2b07bcfb18971&imgtype=0&src=http%3A%2F%2Fwww.taopic.com%2Fuploads%2Fallimg%2F111009%2F6630-111009191F713.jpg" alt=""></li>
+        </ul>
+        <ul class="radio">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li style="background-color: aqua" ></li>
+        </ul>
+    </div>
+    <script>
+    var i=0;
+        var timer=setInterval(function(){
+          $(".nav .img li").eq(i).fadeIn().siblings().fadeOut();
+          $(".nav .radio li").eq($(".nav .img li").eq(i).index()).css("background-color","aqua").siblings().css("background-color","brown")
+          i++;
+          if(i==4){
+              i=0;
+          }
+        },1500)
+    </script>
+    </body>
+</html>
