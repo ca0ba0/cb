@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>play</title>
+</head>
+<script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery
+/jquery-1.4.min.js"></script>
+<style>
+li{
+	width:100px;
+	height:100px;
+	display:inline-block;	
+}
+ul,div{
+	display:inline-block;
+}
+</style>
+<body>
+<ul>
+<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li>5</li>
+<li>6</li>
+<li>7</li>
+<li>8</li>
+</ul>
+<div id="div"></div>
+<script>
+//hover方法
+var li=$("li")
+var div=$("#div")
+div.html("")
+var p=$("<p></p>")
+li.hover(function(){
+	  console.log("鼠标移入")
+	  $(this).css({"background":"#0FC"})	 
+	},
+	function(){
+	  console.log("鼠标移出")
+	  $(this).css({"background":"#BBB"})
+	 
+		})
+//鼠标点击	
+	li.click(function(){
+	  var val=$("li").index(this)
+	  div.append(p)
+	  $("body").append(div)
+	  p.html("鼠标点击了第"+(val+1)+"块")	  
+		})	
+	
+//mouseover/mouseout方法
+//$("li").mouseover(function(){
+//	$(this).css({"background":"yellow","color":"#90F"})
+	//})
+//$("li").mouseout(function(){
+	//$(this).css({"background":"white","color":"#063"})
+	//})
+</script>
+</body>
+</html>
