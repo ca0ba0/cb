@@ -1,0 +1,14 @@
+{   //css-rem 将px=>rem		  
+    //根据设计图的宽度调整cssrem.sublime-settings文件的"px_to_rem"的值
+	//假设设计图的宽度是750px  16rem  =>  1rem=46.875px   
+	//假设设计图的宽度是640px  16rem  =>  1rem=40px 
+	//假设设计图的宽度是500px  16rem  =>  1rem=31.25 px
+     
+    //假设现在屏幕宽度是320px=>html的font-size:20px
+	//设计图是640px 搜过框left值42px=>42*16rem/640  1.05rem  42/640
+	//设计图变成750px  搜索框left值变成了48px  48*16rem/750  1.024rem   48/750
+
+    "px_to_rem": 40,// 	px_to_rem - px转rem的单位比例，默认为40。
+    "max_rem_fraction_length": 6,// max_rem_fraction_length - px转rem的小数部分的最大长度。默认为6。
+    "available_file_types": [".css", ".less", ".sass",".html"]// available_file_types - 启用此插件的文件类型。默认为：[".css", ".less", ".sass"]。
+}

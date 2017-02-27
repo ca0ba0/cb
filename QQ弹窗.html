@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="jquery-1.8.3.js">
+        </script>
+    </head>
+    <style>
+      #tc{
+          width: 100px;
+          height: 400px;
+          background-color: chocolate;
+          position: absolute;
+          top: 100px;
+          right:-100px;
+      }
+      #btn{
+          width:50px;
+          height: 50px;
+          position: absolute;
+          top: 0;
+          left:-50px;
+          background-color: darkorange;
+          background-image: url("jiantou.png");
+          background-size: 100% 100%;
+      }
+    </style>
+    <body>
+        <div id="tc">
+            <div id="btn"></div>
+        </div>
+    <script>
+        var obj={
+            init:function(){
+                this.bindEvent();
+            },
+            btn:$("#btn"),
+            bindEvent:function(){
+              this.btn.on("click",function(){
+                     var flag=$("#tc").css("right")
+                     console.log(flag)
+                     if(flag=="-100px"){
+                         $(this).css({ "background-image":" url('jiantou2.png')"})
+                         $(this).parent().animate({"right":"0"});
+                     }else{
+                         $(this).css({ "background-image":" url('jiantou.png')"})
+                         $(this).parent().animate({"right":"-100px"});
+                     }
+              })
+            }
+        }
+        obj.init();                                                                                                                                                                                                                                                             
+    </script>
+
+    </body>
+</html>
