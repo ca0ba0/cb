@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>单词本</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="http://crm.daohangma.com/zuopin/lm17/caobao/wenjian/jquery-1.8.3.js"></script>
+
+    </head>
+    <style>
+      .tab{
+          width:100%;
+          text-align: center;
+      }
+       table td{
+          border: 1px brown solid;
+          width: auto;
+       }
+    .xg,.add{
+           width: 230px;
+           height: 200px;
+           position: absolute;
+           left: 20%;
+           top: 250px;
+           background-color: darkgray;
+           display: none;
+           border-radius: 10px;
+       }
+       input{
+           display: block;
+           margin-left: 10px;
+       }
+       h1{
+           text-align: center;
+       }
+    </style>
+    <body>
+        <h1>单词本</h1>
+    <button class="a">增加</button>
+    <div class="add">
+     <larbel for="description">描述：</larbel>
+     <input type="text" id="description">
+     <larbel class="pronounce">读音：</larbel>
+     <input type="text" id="pronounce">
+     <larbel for="word">单词：</larbel>
+     <input type="text" id="word">
+     <larbel for="wordtype">词性:</larbel>
+     <input type="text" id="wordtype">
+     <button class="sub">提交</button>
+    </div>
+    <div class="xg">
+     <larbel for="description">描述：</larbel>：
+     <input type="text" id="description">
+     <larbel class="pronounce">读音：</larbel>
+     <input type="text" id="pronounce">
+     <larbel for="word">单词：</larbel>
+     <input type="text" id="word">
+     <larbel for="wordtype">词性:</larbel>
+     <input type="text" id="wordtype">
+     <button class="xiugai">确认修改</button>
+    </div>
+        <table class="tab" id="tab">
+            <tr>               
+                <td>描述</td>       
+                <td>读音</td>
+                <td>单词</td>
+                <td>词性</td>
+                <td>时间</td>
+                <td>ID</td>
+                <td>操作</td>
+            </tr>
+        </table>
+        <!--<button type="" class="more">more</button>-->
+        <script>
+        //增加单词
+        $(".a").click(function(e){
+            e.stopPropagation();
+            var display=$(".add").css("display");
+            if(display=="none"){
+                $(".add").css("display","block")
+            }
+            else{
+                $(".add").css("display","none")
+            }
+            });
+        
+        //提交
+         $(".sub").click(function(){
+                var ds=$(".add input").eq(0).val();
+                var p=$(".add input").eq(1).val();
+                var w=$(".add input").eq(2).val();
+                var wt=$(".add input").eq(3).val();
+                $(".add").css("display","none");            
+                $.ajax({               
+                method:"GET",
+                url:"http://app.sencha.com.cn/soya/apps/testdb/server/?action=wordList.insert",
+                data:{
+                    description:ds,
+                    pronounce:p,
+                    word:w,
+                    wordtype:wt
+                },
+                dataType:"jsonp",
+                success:function(responseText){   
+                    var tr=$("<tr></tr>");
+                    tr.attr("id",responseText.data.id)
+                    var tab=$(".tab");
+                    for(let i=0;i<7;i++){
+                    var td=$("<td></td>")
+                    switch(i){       
+                    case 0:td.text(ds) ;
+                    break;
+                    case 1:td.text(p);
+                    break;
+                    case 2:td.text(w);
+                    break;
+                    case 3:td.text(wt);
+                    break;
+                    case 4:
+                    var d=new Date();
+                    var y=d.getFullYear();
+                    var m=d.getMonth()+1;
+                    var day=d.getDate();
+                    var h=d.getHours();
+                    var min=d.getMinutes();
+                    var s=d.getSeconds();
+                    td.text(y+"-"+m+"-"+day+"-"+h+":"+min+":"+s);
+                    break;
+                    case 5:td.text(responseText.data.id);
+                    break;
+                    case 6:
+                    var xg=$("<button>修改</button>");
+                    var sc=$("<button>删除</button>");
+                    
+                    sc.click(function(){
+                        $(this).parent().parent().remove();
+                        id=$(this).parent().parent().attr("id");
+                        Delete();
+                    })
+                //对新插入修改
+                  xg.click(function(e){
+                    e.stopPropagation();
+                    var display=$(".xg").css("display");
+                    id=$(this).parent().parent().attr("id");
+                    if(display=="none"){
+                        $(".xg").css("display","block");
+                    }
+                    else{
+                        $(".xg").css("display","none");
+                    }
+                    $(".xiugai").click(function(){
+                    var ds=$(".xg input").eq(0).val();
+                    var p=$(".xg input").eq(1).val();
+                    var w=$(".xg input").eq(2).val();
+                    var wt=$(".xg input").eq(3).val();
+                    console.log(id);
+                    $(".xg").css("display","none"); 
+                        $.ajax({
+                            method:"GET",
+                            url:"http://app.sencha.com.cn/soya/apps/testdb/server/?action=wordList.update",
+                            dataType:"jsonp",
+                            data:{
+                                id:id,
+                                description:ds,
+                                pronounce:p,
+                                word:w,
+                                wordtype:wt
+                                },
+                            success:function(responseText){
+                                console.log(responseText);
+                                $("#"+id).find("td").eq(0).text(ds);
+                                $("#"+id).find("td").eq(1).text(p);
+                                $("#"+id).find("td").eq(2).text(w);
+                                var date=new Date();
+                                var year=date.getFullYear();
+                                var mon=date.getMonth()+1;
+                                var day=date.getDate();
+                                var h=date.getHours();
+                                var min=date.getMinutes();
+                                var sec=date.getSeconds();
+                                var time=year+"-"+mon+"-"+day+"-"+h+":"+min+":"+sec;
+                                $("#"+id).find("td").eq(3).text(wt);
+                                $("#"+id).find("td").eq(4).text(time);
+
+                            },
+                            error:function(){
+
+                            }
+
+                            })
+                        }) 
+                                });
+                                td.append(xg,sc);                                 
+                                }                                 
+                                tr.append(td);
+                            }
+                            
+                            tab.append(tr);
+                            $("tr").eq(0).after(tr);
+                        },
+                        error:function(){
+
+                        }  
+                    }); 
+                        
+                });
+              
+            //导入单词
+            $.ajax({
+             method:"GET",
+             url:"http://app.sencha.com.cn/soya/apps/testdb/server/?action=wordList.list",
+             data:{
+                 perparge:20,
+                 page:1
+             },
+             dataType:"jsonp",
+             success:function(responseText){
+                  var dtarr=responseText.data;
+                  console.log(dtarr);
+                   for(let i=0;i<dtarr.length;i++){          
+                     var tr=$("<tr></tr>");
+                     var tab=$(".tab");
+                     var dt=dtarr[i];
+                      tr.attr("id",dt.id)
+                     for(let i=0;i<7;i++){
+                         var td=$("<td></td>");
+                         switch(i){
+                             case 0:td.text(dt.description);
+                             break;
+                             case 1:td.text(dt.pronounce);
+                             break;
+                             case 2:td.text(dt.word);
+                             break;
+                             case 3:td.text(dt.wordtype);
+                             break;
+                             case 4:td.text(dt.dateLine);
+                             break;
+                             case 5:td.text(dt.id);
+                             break;
+                             case 6:
+                             var xg=$("<button>修改</button>");
+                             var sc=$("<button>删除</button>");                          
+                              sc.click(function(){
+                                        $(this).parent().parent().remove();
+                                        id=$(this).parent().parent().attr("id");
+                                       // console.log(id);
+                                        Delete();                                   
+                                        })
+                             xg.click(function(e){
+                            e.stopPropagation();
+                            var display=$(".xg").css("display");
+                            id=$(this).parent().parent().attr("id");
+                        
+                            
+                            if(display=="none"){
+                                $(".xg").css("display","block");
+                            }
+                            else{
+                                $(".xg").css("display","none")
+                            }
+                            //对已有的修改
+                            $(".xiugai").click(function(){
+                            var ds=$(".xg input").eq(0).val();
+                            var p=$(".xg input").eq(1).val();
+                            var w=$(".xg input").eq(2).val();
+                            var wt=$(".xg input").eq(3).val();
+                            console.log(id);
+                            $(".xg").css("display","none"); 
+                                $.ajax({
+                                    method:"GET",
+                                    url:"http://app.sencha.com.cn/soya/apps/testdb/server/?action=wordList.update",
+                                    dataType:"jsonp",
+                                    data:{
+                                        id:id,
+                                        description:ds,
+                                        pronounce:p,
+                                        word:w,
+                                        wordtype:wt
+                                        },
+                                    success:function(responseText){
+                                        console.log(responseText);
+                                        $("#"+id).find("td").eq(0).text(ds);
+                                        $("#"+id).find("td").eq(1).text(p);
+                                        $("#"+id).find("td").eq(2).text(w);
+                                        var date=new Date();
+                                        var year=date.getFullYear();
+                                        var month=date.getMonth()+1;
+                                        var dateline=date.getDate();
+                                        var hour=date.getHours();
+                                        var minute=date.getMinutes();
+                                        var second=date.getSeconds();
+                                        var time=year+"-"+month+"-"+dateline+hour+":"+minute+":"+second;
+                                        $("#"+id).find("td").eq(3).text(wt);
+                                        $("#"+id).find("td").eq(4).text(time);
+
+                                    },
+                                    error:function(){
+
+                                    }
+
+                                    })
+                                }) 
+                                });
+                             td.append(xg,sc);
+                             
+                         }
+                         tr.append(td);
+                     }
+                     tab.append(tr)
+                     
+
+                   }
+                  
+             },
+             error:function(){
+                  console.log("执行失败")
+             }
+            });
+            function Delete(){
+               $.ajax({
+                    method:"GET",
+                    url:"http://app.sencha.com.cn/soya/apps/testdb/server/?action=wordList.delete",
+                    data:{
+                      id:id
+                    },
+                    dataType:"jsonp",
+                    success:function(responseText){
+                        console.log(responseText)
+                         $("#"+id).remove();
+                    },
+                    error:function(){
+
+                    }
+                })
+            }
+        </script>
+
+    </body>
+</html>
